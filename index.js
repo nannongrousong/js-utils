@@ -1,34 +1,37 @@
-const debounce = (func, delay) => {
+function debounce(func, delay) {
     let timeID = undefined;
-    return () => {
+    return function () {
         if (timeID) {
             clearTimeout(timeID);
         }
 
-        timeID = setTimeout(func, delay);
+        let context = this;
+        let args = arguments;
+
+        timeID = setTimeout(func.bind(context, args), delay);
     }
 }
 
-const throttle = (func, delay) => {
+function throttle(func, delay) {
     let startTime = undefined;
     if (!startTime) {
         startTime = new Date().getTime();
     }
-    return () => {
+
+    return function () {
         let presentTime = new Date().getTime();
         if (presentTime - startTime > delay) {
-            func();
+            func.apply(this, arguments);
             startTime = new Date().getTime();
         }
     }
 }
 
-const eventLog = () => { console.log(`hihi_____${Math.random() * 100}`) };
-
+const eventLog = (e) => { console.log('e', e); console.log(`hihi_____${Math.random() * 100}`) };
 
 window.onload = () => {
     const body = document.querySelector('body');
-    //body.addEventListener('mousemove', debounce(eventLog, 1000));
-    body.addEventListener('mousemove', throttle(eventLog, 1000));
+    body.addEventListener('mousemove', debounce(eventLog, 1000));
+    //body.addEventListener('mousemove', throttle(eventLog, 1000));
 }
 
