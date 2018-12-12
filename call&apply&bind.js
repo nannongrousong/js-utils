@@ -29,5 +29,19 @@ Function.prototype.apply2 = function (ctx) {
     eval(`ctx.fn(${args.toString()})`);
     delete ctx.fn;
 };
-
 earth.welcome.apply2(school, ['zhangsan', 'lisi']);
+
+
+earth.welcome.bind(school, 'zhangsan', 'lisi')();
+
+Function.prototype.bind2 = function (ctx) {
+    ctx.fn = this;
+    let arguments2 = arguments;
+
+    return function () {
+        let args = Array(arguments2.length - 1).fill('').map((v, i) => (`arguments2[${i + 1}]`));
+        eval(`ctx.fn(${args.toString()})`);
+    };
+}
+
+earth.welcome.bind2(school, 'zhangsan', 'lisi')();
