@@ -5,7 +5,7 @@ function debounce(func, delay) {
             clearTimeout(timeID);
         }
 
-        timeID = setTimeout(func.bind(this, arguments), delay);
+        timeID = setTimeout(func.bind(this, ...arguments), delay);
     }
 }
 
