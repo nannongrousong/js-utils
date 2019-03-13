@@ -15,7 +15,7 @@ function throttle(func, delay) {
     return function () {
         let presentTime = new Date().getTime();
         if (presentTime - startTime > delay) {
-            func.apply(this, arguments);
+            func(...arguments);
             startTime = new Date().getTime();
         }
     }
